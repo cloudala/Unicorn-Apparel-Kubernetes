@@ -1,0 +1,29 @@
+{
+  "reviews": [
+    {
+      "rating": 5,
+      "reviewerName": "John Doe",
+      "reviewBody": "This product exceeded my expectations. I highly recommend it! Best product I've seen in years!"
+    },
+    {
+      "rating": 4,
+      "reviewerName": "Jane Smith",
+      "reviewBody": "Good product. It serves its purpose well."
+    },
+    {
+      "rating": 3,
+      "reviewerName": "Alice Johnson",
+      "reviewBody": "Average product. It could be better."
+    },
+    {
+      "rating": 5,
+      "reviewerName": "Bob Williams",
+      "reviewBody": "Excellent! No complaints at all."
+    },
+    {
+      "rating": 2,
+      "reviewerName": "Charlie Brown",
+      "reviewBody": "Not satisfied. The quality could be improved."
+    }
+  ]
+}

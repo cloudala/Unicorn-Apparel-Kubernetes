@@ -1,0 +1,65 @@
+{
+    "products": [
+      {
+        "id": 1,
+        "title": "Cotton T-shirt",
+        "imageUrl": "https://assets.burberry.com/is/image/Burberryltd/F1B9775E-C5BE-4BF0-BF7A-B91A7A90F0E4?$BBY_V3_SL_1$&wid=1501&hei=1500",
+        "category": "T-shirts",
+        "price": 23.99,
+        "shortDescription": "Comfortable cotton t-shirt for everyday wear.",
+        "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et libero nec nisi tempor malesuada. Proin a ex nec neque feugiat interdum ac eu elit.",
+        "count": 47
+      },
+      {
+        "id": 2,
+        "title": "Slim Fit Jeans",
+        "imageUrl": "https://images.wrangler.com/is/image/Wrangler/112339101-ALT6?$KDP-XLARGE$",
+        "category": "Jeans",
+        "price": 49.99,
+        "shortDescription": "Stylish slim fit jeans for a trendy look.",
+        "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et libero nec nisi tempor malesuada. Proin a ex nec neque feugiat interdum ac eu elit.",
+        "count": 30
+      },
+      {
+        "id": 3,
+        "title": "Casual Hoodie",
+        "imageUrl": "https://a.allegroimg.com/original/1186ee/709bd0664e3c973316bb4e47109b/Harajuku-Men-Hoodie-Planets-Colour-Casual-Hoodies",
+        "category": "Hoodies",
+        "price": 35.5,
+        "shortDescription": "Relaxed-fit hoodie for casual and comfortable wear.",
+        "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et libero nec nisi tempor malesuada. Proin a ex nec neque feugiat interdum ac eu elit.",
+        "count": 20
+      },
+      {
+        "id": 4,
+        "title": "Cotton T-shirt",
+        "imageUrl": "https://assets.burberry.com/is/image/Burberryltd/F1B9775E-C5BE-4BF0-BF7A-B91A7A90F0E4?$BBY_V3_SL_1$&wid=1501&hei=1500",
+        "category": "T-shirts",
+        "price": 23.99,
+        "shortDescription": "Comfortable cotton t-shirt for everyday wear.",
+        "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et libero nec nisi tempor malesuada. Proin a ex nec neque feugiat interdum ac eu elit.",
+        "count": 0
+      },
+      {
+        "id": 5,
+        "title": "Slim Fit Jeans",
+        "imageUrl": "https://images.wrangler.com/is/image/Wrangler/112339101-ALT6?$KDP-XLARGE$",
+        "category": "Jeans",
+        "price": 49.99,
+        "shortDescription": "Stylish slim fit jeans for a trendy look.",
+        "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et libero nec nisi tempor malesuada. Proin a ex nec neque feugiat interdum ac eu elit.",
+        "count": 30
+      },
+      {
+        "id": 6,
+        "title": "Casual Hoodie",
+        "imageUrl": "https://a.allegroimg.com/original/1186ee/709bd0664e3c973316bb4e47109b/Harajuku-Men-Hoodie-Planets-Colour-Casual-Hoodies",
+        "category": "Hoodies",
+        "price": 35.5,
+        "shortDescription": "Relaxed-fit hoodie for casual and comfortable wear.",
+        "longDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et libero nec nisi tempor malesuada. Proin a ex nec neque feugiat interdum ac eu elit.",
+        "count": 20
+      }
+    ]
+  }
+  
