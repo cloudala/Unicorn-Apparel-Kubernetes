@@ -1,0 +1,36 @@
+# Getting all products in the database
+GET http://localhost:4000/api/products
+
+###
+# Adding a new product to the database
+POST http://localhost:4000/api/products 
+Content-Type: application/json
+
+{
+  "title": "Phone",
+  "imageUrl": "https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4858.jpg",
+  "price": 99.99,
+  "shortDescription": "Short description for the new product",
+  "longDescription": "Long description for the new product",
+  "count": 100,
+  "category": "Electronics"
+}
+
+###
+# Deleting a product from the database
+DELETE http://localhost:4000/api/products/55efb865-26c9-48f4-a8c4-f6200fc3571e
+
+###
+# Adding a product review
+POST http://localhost:4000/api/products/12bf1017-9f9e-4651-9a82-6d36fa2e79c3/reviews
+Content-Type: application/json
+
+{
+  "rating": 1,
+  "reviewerName": "Mike Jones",
+  "reviewBody": "Poor fit."
+}
+
+###
+# Deleting a product review
+DELETE http://localhost:4000/api/products/228140de-c9d0-4b82-be79-ab79373e815b/reviews/e48564ed-e702-4713-b949-7d8972ec3880
