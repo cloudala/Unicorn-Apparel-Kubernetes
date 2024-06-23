@@ -10,6 +10,8 @@ import OrderItemList from './components/OrderItemList';
 import AdminPage from './pages/AdminPage'
 import SortFilterPage from './pages/SortFilterPage'
 import AdminEditPage from './pages/AdminEditPage'
+import PrivateRoute from './utils/PrivateRoute'
+import AdminRoute from "./utils/AdminRoute";
 
 export default function App() {
   return (
@@ -18,12 +20,12 @@ export default function App() {
         <Routes>
           <Route path='/' element={<ProductListPage/>}/>
           <Route path='/store' element={<SortFilterPage/>}/>
-          <Route path='/admin' element={<AdminPage/>}/>
-          <Route path='/admin/:id' element={<AdminEditPage/>}/>
+          <Route path='/admin' element={<AdminRoute><AdminPage/></AdminRoute>}/>
+          <Route path='/admin/:id' element={<AdminRoute><AdminEditPage/></AdminRoute>}/>
           <Route path='/products/:id' element={<ProductDetailsPage/>}/>
-          <Route path='/cart' element={<ShoppingCart/>}/>
-          <Route path='/cart/checkout' element={<CheckoutForm/>}/>
-          <Route path='/cart/checkout/order' element={<OrderItemList/>}/>
+          <Route path='/cart' element={<PrivateRoute><ShoppingCart/></PrivateRoute>}/>
+          <Route path='/cart/checkout' element={<PrivateRoute><CheckoutForm/></PrivateRoute>}/>
+          <Route path='/cart/checkout/order' element={<PrivateRoute><OrderItemList/></PrivateRoute>}/>
         </Routes>
       <Footer/>
     </>
