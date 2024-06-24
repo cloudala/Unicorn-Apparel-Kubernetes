@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { toast, Bounce } from 'react-toastify';
 
 export default function NewProductForm() {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -24,7 +25,7 @@ export default function NewProductForm() {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await fetch('http://localhost:4000/api/products', {
+        const response = await fetch(`${apiUrl}/products`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

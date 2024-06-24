@@ -3,8 +3,9 @@ import useFetch from '../hooks/useFetch'
 export const DeliveryContext = createContext();
 
 export const DeliveryProvider = ({ children }) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const { data, loading, error } = useFetch(
-        'http://localhost:4000/api/delivery'
+        `${apiUrl}/delivery`
     );
       
     const [delivery, setDelivery] = useState([]);

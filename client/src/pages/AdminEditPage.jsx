@@ -4,9 +4,10 @@ import AdminProductDetails from '../components/AdminProductDetails';
 import Loading from '../components/Loading';
 
 export default function AdminEditPage() {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { id } = useParams()
   const { data, loading, error } = useFetch(
-    `http://localhost:4000/api/products/${id}`
+    `${apiUrl}/products/${id}`
   );
 
   return (

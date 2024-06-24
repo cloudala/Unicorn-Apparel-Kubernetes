@@ -1,6 +1,7 @@
 import Keycloak from "keycloak-js";
+const keycloakUrl = import.meta.env.VITE_KEYCLOAK_URL;
 const keycloak = new Keycloak({
- url: "http://localhost:8080",
+ url: keycloakUrl,
  realm: "keycloak-react-auth",
  clientId: "unicorn-apparel",
 });

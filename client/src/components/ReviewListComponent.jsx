@@ -3,8 +3,9 @@ import useFetch from '../hooks/useFetch';
 import ReviewList from './ReviewList'
 
 export default function ReviewListComponent({ id, isAdmin }) {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const { data, loading, error } = useFetch(
-        `http://localhost:4000/api/products/${id}/reviews`
+        `${apiUrl}/products/${id}/reviews`
     );
     return (
         <div className={`flex flex-col gap-5 ${isAdmin ? `w-5/6` : `w-1/2`}`}>

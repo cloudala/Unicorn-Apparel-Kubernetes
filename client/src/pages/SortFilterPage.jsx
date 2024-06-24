@@ -19,9 +19,10 @@ const reducer = (state, action) => {
 };
 
 export default function SortFilterPage() {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const {products, loading: loadingProducts, error: errorProducts} = useContext(ProductContext)
   // Initialize state using useReducer
-  const [state, dispatch] = useReducer(reducer, { api: 'http://localhost:4000/api/products', filterProducts: loadingProducts || errorProducts ? [] : products });
+  const [state, dispatch] = useReducer(reducer, { api: `${apiUrl}/products`, filterProducts: loadingProducts || errorProducts ? [] : products });
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -59,7 +60,7 @@ export default function SortFilterPage() {
     queryParamsArray.map(([key, value]) => displayQueryParams.append(key, value));
     navigate(`?${displayQueryParams.toString().replace(/,/g, '=')}`);
     
-    const apiUrl = `http://localhost:4000/api/products${queryParamsArray.length > 0 ? `?${queryParamsArray.join('&').replace(/,/g, '=')}` : ''}`;
+    const apiUrl = `${apiUrl}/products${queryParamsArray.length > 0 ? `?${queryParamsArray.join('&').replace(/,/g, '=')}` : ''}`;
     dispatch({ type: 'SET_API', payload: apiUrl});
   };
 

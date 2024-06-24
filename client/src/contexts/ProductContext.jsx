@@ -3,8 +3,9 @@ import useFetch from '../hooks/useFetch';
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const { data, loading, error } = useFetch(
-      'http://localhost:4000/api/products'
+      `${apiUrl}/products`
     );
     
     const [products, setProducts] = useState([]);

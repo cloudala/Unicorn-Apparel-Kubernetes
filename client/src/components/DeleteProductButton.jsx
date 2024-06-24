@@ -1,9 +1,10 @@
 import {toast, Bounce} from 'react-toastify'
 
 export default function DeleteProductButton({text, id}) {
+    const apiUrl = import.meta.env.VITE_API_URL;
     async function deleteProductApiCall() {
         try {
-          const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+          const response = await fetch(`${apiUrl}/products/${id}`, {
             method: 'DELETE'
           });
       

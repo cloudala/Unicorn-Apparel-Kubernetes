@@ -5,6 +5,7 @@ import Rating from '@mui/material/Rating';
 import { toast, Bounce } from 'react-toastify';
 
 export default function EditUserReviewForm({ review, id }) {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const inputStyles = 'w-full p-2 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300'
   const formik = useFormik({
     initialValues: {
@@ -27,7 +28,7 @@ export default function EditUserReviewForm({ review, id }) {
       const updatedReview = { rating, reviewerName, reviewBody };
       
       try {
-        const response = await fetch(`http://localhost:4000/api/products/${id}/reviews/${review.reviewId}`, {
+        const response = await fetch(`${apiUrl}/products/${id}/reviews/${review.reviewId}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

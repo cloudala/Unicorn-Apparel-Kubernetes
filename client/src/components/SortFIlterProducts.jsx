@@ -5,7 +5,8 @@ import ErrorMessage from './ErrorMessage';
 import useFetch from '../hooks/useFetch'
 
 export default function SortFilterProducts({ onSubmit }) {
-  const { data, loading, error} = useFetch('http://localhost:4000/api/categories')
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { data, loading, error} = useFetch(`${apiUrl}/categories`)
   const categories = loading || error
   ? [{ value: "", userValue: "All Categories" }]
   : [{ value: "", userValue: "All Categories" }].concat(

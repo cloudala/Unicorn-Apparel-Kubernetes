@@ -10,6 +10,7 @@ import { toast, Bounce } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 
 export default function OrderItemList() {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate()
     const { products } = useContext(ProductContext);
     const { cartItems, clearCart } = useContext(ShoppingCartContext)
@@ -34,7 +35,7 @@ export default function OrderItemList() {
         )
         const orderBody = {...orderData, products: orderedProductsBody}
         try {
-            const response = await fetch('http://localhost:4000/api/order', {
+            const response = await fetch(`${apiUrl}/order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
