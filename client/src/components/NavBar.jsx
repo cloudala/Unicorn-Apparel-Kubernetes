@@ -3,11 +3,11 @@ import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { ShoppingCartContext } from '../contexts/ShoppingCartContext';
-import { useKeycloak } from "@react-keycloak/web";
+// import { useKeycloak } from "@react-keycloak/web";
 
 export default function NavBar() {
   const { cartQuantity } = useContext(ShoppingCartContext);
-  const { keycloak, initialized } = useKeycloak();
+  // const { keycloak, initialized } = useKeycloak();
 
   return (
     <header className="py-5 flex justify-between items-center w-full bg-white shadow-lg p-3">
@@ -34,7 +34,7 @@ export default function NavBar() {
             )}
           </button>
         </NavLink>
-        <div>
+        {/* <div>
           {!keycloak.authenticated && (
             <button
               type="button"
@@ -53,7 +53,7 @@ export default function NavBar() {
               Logout ({keycloak.tokenParsed.preferred_username})
             </button>
           )}
-        </div>
+        </div> */}
       </div>
     </header>
   );

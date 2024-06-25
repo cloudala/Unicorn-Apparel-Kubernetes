@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import keycloak from "./Keycloak";
+// import { ReactKeycloakProvider } from "@react-keycloak/web";
+// import keycloak from "./Keycloak";
 import App from './App';
 import { ProductProvider } from './contexts/ProductContext';
 import { ShoppingCartProvider } from './contexts/ShoppingCartContext';
@@ -13,12 +13,11 @@ import { ToastContainer } from 'react-toastify';
 import ScrollToTop from './components/ScrollToTop'
 import 'react-toastify/dist/ReactToastify.css';
 
-const initOptions = { pkceMethod: "S256", checkLoginIframe: false };
+// const initOptions = { pkceMethod: "S256", checkLoginIframe: false };
 
 ReactDOM.createRoot(document.getElementById('root'))
 .render(
-  <ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
-    {/* <React.StrictMode> */}
+  // <ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
       <BrowserRouter>
         <ProductProvider>
           <DeliveryProvider>
@@ -44,6 +43,5 @@ ReactDOM.createRoot(document.getElementById('root'))
           </DeliveryProvider>
         </ProductProvider>
       </BrowserRouter>
-    {/* </React.StrictMode> */}
-  </ReactKeycloakProvider>
+  // </ReactKeycloakProvider>
 );

@@ -1,4 +1,5 @@
 const { buildBaseQuery, filterByCategory, filterByPriceRange, getSortingOrder } = require("../utils/queryUtils");
+const { v4: uuidv4 } = require('uuid');
 
 function getProductsQuery(queryParams) {
   const {
@@ -51,34 +52,34 @@ function getProductDetailsQuery(productId) {
 }
 
 function addProductQuery(productData) {
-    const query = `
-        WITH $productData AS productData
-        // Create or retrieve the category node using APOC
-        CALL apoc.merge.node(['Category'], {name: productData.category}, {})
-        YIELD node AS category
+  const productId = uuidv4(); // Generate UUID v4
 
-        // Create the new product node using APOC
-        CALL apoc.create.node(['Product'], {
-          id: apoc.create.uuid(),
-          title: productData.title,
-          imageUrl: productData.imageUrl,
-          price: productData.price,
-          shortDescription: productData.shortDescription,
-          longDescription: productData.longDescription,
-          count: productData.count,
-          dateAdded: timestamp()
-        }) YIELD node AS product
+  const query = `
+      WITH $productId AS productId, $productData AS productData
+      // Create or retrieve the category node
+      MERGE (category:Category { name: productData.category })
+      
+      // Create the new product node
+      CREATE (product:Product {
+        id: productId,
+        title: productData.title,
+        imageUrl: productData.imageUrl,
+        price: productData.price,
+        shortDescription: productData.shortDescription,
+        longDescription: productData.longDescription,
+        count: productData.count,
+        dateAdded: timestamp()
+      })
 
-        // Create BELONGS_TO relationship using APOC
-        CALL apoc.create.relationship(product, 'BELONGS_TO', {}, category)
-        YIELD rel
+      // Create BELONGS_TO relationship
+      MERGE (product)-[:BELONGS_TO]->(category)
 
-        RETURN product, category;
-    `;
+      RETURN product.id AS productId, product, category;
+  `;
 
   return {
       query,
-      parameters: { productData }
+      parameters: { productData, productId }
   };
 }
 

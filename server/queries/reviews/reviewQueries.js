@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 function getProductReviewsQuery(productId) {
     const query = `
       MATCH (product:Product {id: $productId})<-[:REVIEWS]-(review:Review)
@@ -10,21 +12,23 @@ function getProductReviewsQuery(productId) {
 }
   
 function addProductReviewQuery(productId, reviewData) {
-    const query = `
-      MATCH (product:Product {id: $productId})
-      CREATE (review:Review {
-        id: apoc.create.uuid(),
-        rating: toInteger($rating),
-        reviewerName: $reviewerName,
-        reviewBody: $reviewBody
-      })-[:REVIEWS]->(product)
-      RETURN review.id AS reviewId, review.rating, review.reviewerName, review.reviewBody`
-  
-      const { rating, reviewerName, reviewBody } = reviewData
-      return {
-        query,
-        parameters: { productId, rating, reviewerName, reviewBody }
-      };
+  const query = `
+    MATCH (product:Product {id: $productId})
+    CREATE (review:Review {
+      id: $reviewId,
+      rating: toInteger($rating),
+      reviewerName: $reviewerName,
+      reviewBody: $reviewBody
+    })-[:REVIEWS]->(product)
+    RETURN review.id AS reviewId, review.rating, review.reviewerName, review.reviewBody`;
+
+  const { rating, reviewerName, reviewBody } = reviewData;
+  const reviewId = uuidv4(); // Generate UUID v4
+
+  return {
+      query,
+      parameters: { productId, reviewId, rating, reviewerName, reviewBody }
+  };
 }
   
 function deleteProductReviewQuery(productId, reviewId) {

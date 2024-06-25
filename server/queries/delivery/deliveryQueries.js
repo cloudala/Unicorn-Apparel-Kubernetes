@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 function getDeliveryQuery() {
     const query = 'MATCH (n:Delivery) RETURN n.id AS id, n.type AS type, n.price AS price'
   
@@ -5,19 +7,18 @@ function getDeliveryQuery() {
 }
 
 function addDeliveryQuery(deliveryData) {
+    const deliveryId = uuidv4();
     const query = `
-        WITH $deliveryData AS data,
-             apoc.create.uuid() AS deliveryId
         CREATE (delivery:Delivery)
-        SET delivery.id = deliveryId,
-            delivery.type = data.type,
-            delivery.price = data.price
+        SET delivery.id = $deliveryId,
+            delivery.type = $deliveryData.type,
+            delivery.price = $deliveryData.price
         RETURN delivery.id AS id, delivery.type AS type, delivery.price AS price
     `;
 
     return {
         query,
-        parameters: { deliveryData }
+        parameters: { deliveryId, deliveryData }
     };
 }
 
