@@ -221,12 +221,10 @@ Oczekiwania dotyczące wydajności obejmują niski czas odpowiedzi przy zapytani
 
 
 \subsection{Architektura sieciowa - 4 pkt}
-Klastr Kubernetes został skonfigurowany z wykorzystaniem protokołu sieciowego CNI (Container Network Interface), który umożliwia każdemu kontenerowi w klastrze komunikację sieciową. W moim klastrze używam CNI pluginu, który zapewnia elastyczne zarządzanie adresami IP oraz konfigurację routingu między kontenerami.
-
 \subsection*{Wykorzystywane Protokoły:}
 
 \begin{enumerate}
-    \item \textbf{HTTP}: Protokoły te są używane do komunikacji między klientem a serwerem e-commerce oraz do dostępu do aplikacji poprzez Ingress.
+    \item \textbf{HTTP}: Protokół ten jest używany do komunikacji między klientem a serwerem e-commerce oraz do dostępu do aplikacji poprzez Ingress.
     
     \item \textbf{TCP}: Wykorzystywany głównie do komunikacji między kontenerami, na przykład pomiędzy frontendem (client) a backendem (server), oraz do komunikacji z bazą danych.
     
@@ -236,14 +234,14 @@ Klastr Kubernetes został skonfigurowany z wykorzystaniem protokołu sieciowego 
 \subsection*{Narzędzia do Zarządzania Siecią:}
 
 \begin{enumerate}
-    \item \textbf{Kubernetes Networking}: Zarządzanie siecią w klastrze Kubernetes obejmuje konfigurację Ingress, Service oraz Network Policies, które definiują reguły komunikacji między usługami oraz zarządzają dostępem do aplikacji.
+    \item \textbf{Kubernetes Networking}: Zarządzanie siecią w klastrze Kubernetes obejmuje konfigurację Ingress oraz Service, które definiują reguły komunikacji między usługami oraz zarządzają dostępem do aplikacji.
     
     \item \textbf{NGINX Ingress Controller}: Kontroler Ingress NGINX zarządza ruchem sieciowym do aplikacji w klastrze, umożliwiając elastyczne routowanie ruchu HTTP do różnych usług w klastrze (klienta i serwera).
 \end{enumerate}
 
 \subsection{Podsumowanie}
 \label{sec:ExampleResults}
-Dzięki powyższej strukturze i wykorzystaniu potężnych możliwości orchestracji Kubernetes, aplikacja zapewnia wysoką dostępność, skalowalność oraz efektywne zarządzanie zasobami. Każdy komponent jest konteneryzowany i zarządzany niezależnie, co zapewnia elastyczność i odporność całego systemu.
+Dzięki powyższej strukturze i wykorzystaniu potężnych możliwości orkiestracji Kubernetes, aplikacja zapewnia wysoką dostępność, skalowalność oraz efektywne zarządzanie zasobami. Każdy komponent jest konteneryzowany i zarządzany niezależnie, co zapewnia elastyczność i odporność całego systemu.
 
 \noindent
 
