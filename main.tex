@@ -1,5 +1,6 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{dsfont} 
 \usepackage[polish]{babel}
 \usepackage{amsmath}
@@ -85,17 +86,17 @@
 \rhead{\hmwkAuthorName} % Top left header
 \lhead{\hmwkClass: \hmwkTitle} % Top center header
 \rhead{\firstxmark} % Top right header
-\lfoot{Jan Kowalski} % Bottom left footer
+\lfoot{Alicja Chmura} % Bottom left footer
 \cfoot{} % Bottom center footer
 \rfoot{} % Bottom right footer
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\footrulewidth}{1pt}
 
     
-\newcommand{\hmwkTitle}{Tytuł projektu z technologii chmurowych} % Tytuł projektu
+\newcommand{\hmwkTitle}{E-commerce Unicorn Apparel w Kubernetes} % Tytuł projektu
 \newcommand{\hmwkDueDate}{\today} % Data 
 \newcommand{\hmwkClass}{Technologie chmurowe} % Nazwa przedmiotu
-\newcommand{\hmwkAuthorName}{Jan Kowalski} % Imię i nazwisko
+\newcommand{\hmwkAuthorName}{Alicja Chmura} % Imię i nazwisko
 
 % trabalho 
 \begin{document}
@@ -136,52 +137,115 @@
 \section{Opis projektu}
 \label{sec:Project}
 
-Tutaj wypisujemy szczegółowe informacje o celu powstania projektu (jakaś historyjka, że pewna firma/osoba potrzebuje bazy, która ...)
+Projekt powstał ze względu na duże zainteresowanie platformą Unicorn Apparel. Celem tego projektu jest zapewnienie solidnej i skalowalnej infrastruktury dla aplikacji e-commerce przy użyciu Kubernetes. Architektura składa się z aplikacji klienckiej napisanej w React Vite, API serwera w ExpressJS oraz bazy danych grafowej Neo4j.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{app.png}
+    \caption{Aplikacja uruchomiona w klastrze Kubernetes}
+\end{figure}
 
 \subsection{Opis architektury - 8 pkt}
 \label{sec:introduction}
-Powinna zawierać opis architektury aplikacji opartej na Kubernetes, w tym opis klastrowego systemu zarządzania kontenerami, wykorzystanych modułów i komponentów
+Aplikacja jest budowana na klastrze Kubernetes, wykorzystując orkiestrację kontenerów do zapewnienia wysokiej dostępności, skalowalności i łatwości zarządzania. Główne komponenty to:
+\begin{enumerate}
+    \item Serwis Kliencki: Aplikacja frontendowa dostarczana na porcie 3000.
+    \item API Serwera: Backendowy serwis komunikujący się z bazą danych Neo4j i obsługujący logikę biznesową.
+    \item Baza Danych Neo4j: Baza grafowa używana do przechowywania i zapytywania danych.
+\end{enumerate}
+Kubernetes zarządza tymi komponentami za pomocą Deploymentów (klient i serwer), StatefulSeta (baza Neo4j), Serwisów, ConfigMaps, Secrets, PersistentVolume i PersistentVolumeClaima oraz Ingressa, zapewniając płynną komunikację i skalowalność. Aplikacja dostepna z zewnatrz przez Ingress Nginx wysyła˙żądania do API backendu uruchomionego w klastrze, a aplikacja backendowa łączy sie z bazą danych i pobiera lub modyfikuje jej dane. Dodatkowo wykorzystane zostały moduły metryki oraz skalowania HorizontalPodAutoscaler (więcej podów zostaje deployowanych w odpowiedzi na zwiększony traffic) umożliwiajace sprawniejsze zarzadzanie klastrem.
+
 
 
 \subsection{Opis infrastruktury - 6 pkt}
 \label{sec:Users}
-
-Powinien zawierać informacje na temat środowiska, w którym aplikacja będzie działać, a także wykorzystanych narzędzi i platformy chmurowe. Ważne jest również zwrócenie uwagi na wykorzystanie zasobów, takich jak sieci i pamięci masowej.
+Aplikacja korzysta z zbudowanych wcześniej i udostępnionych na Docker Hub obrazów. Infrastruktura obejmuje klaster Kubernetes, który może działać na dowolnym dostawcy chmury, takim jak AWS, GCP lub Azure. Klaster zawiera:
+\begin{itemize}
+    \item Sieć: Serwisy są wystawiane za pomocą Deploymentów i Ingressa, umożliwiając zarówno dostęp wewnętrzny, jak i zewnętrzny.
+    \item Magazynowanie: Trwałe przechowywanie zarządzane jest za pomocą PersistentVolume i PersistentVolumeClaima, zapewniając niezawodność i dostępność danych.
+    \item Zarządzanie zasobami: Limity i żądania zasobów są ustawiane w celu optymalizacji wykorzystania CPU i pamięci.
+\end{itemize}
 
 \subsection{Opis komponentów aplikacji - 8 pkt}
 \label{sec:FunctionalConditions}
-
-Powinna zawierać informacje na temat komponentów aplikacji, takich jak serwisy, aplikacje i bazy danych. W szczególności należy zwrócić uwagę na sposoby ich wdrażania, konfiguracji i zarządzania.
+\begin{itemize}
+    \item Deployment metryki badajacy wykorzystanie zasobów (uruchomiony przed innymi komponentami).
+    \item Klient: Zbudowana aplikacja frontendowa React Vite działająca na porcie 3000. Wdrażana jako Deployment z 3 replikami. Można się dostać do niej z zewnątrz dzięki Ingressowi Nginx.
+    \item Serwer: Serwis backendowy ExpressJS działający na porcie 4000, który łączy się z bazą danych Neo4j. Dane potrzebne do połączenia się z bazą są przechowywane w Secret. Serwer wdrażany jest jako Deployment ze zmienną liczbą replik (od 3 do 6) dobieraną przez HorizontalPodScaler w zależności od trafficu. Loadbalancing jest zapewniony przez Ingress Nginx.
+    \item Neo4j: Baza danych grafowa działająca na portach 7474 (HTTP) i 7687 (protokół Bolt). Jest wdrożona jako StatefulSet, co zapewnia trwałość i stabilność danych. Korzysta także z PersistentVolume i PersistentVolumeClaim, umożliwiających trwałe przechowywanie zebranych danych w lokalnej pamieci masowej.
+\end{itemize}
+Każdy komponent jest wdrażany jako osobny pod zarządzany przez Kubernetes, a Serwisy zapewniają stabilne identyfikatory sieciowe.
 
 \subsection{Konfiguracja i zarządzanie - 4 pkt}
 \label{sec:NonFunctionalConditions}
+Konfiguracja aplikacji jest zarządzana za pomocą ConfigMaps i zmiennych \\środowiskowych przechowywanych w Secrets. Baza danych Neo4j jest inicjowana za pomocą skryptu przechowywanego w ConfigMap. Kubernetes zarządza wdrażaniem, skalowaniem i aktualizacją aplikacji, minimalizując przestoje. Aplikacje w klastrze sa konfigurowane poprzez pliki yaml. Korzystajac z kubectl w terminalu można usuwać i dodawać pody, zmieniać ich zasoby lub ustawienia oraz sprawdzać ich stan. Aktualizowanie aplikacji odbywa sie poprzez wprowadzenie odpowiednich zmian w pliku .yaml i jego ponowne zastosowanie (kubectl apply -f). Do cofniecia zmian służy komenda kubectl rollout undo.
 
-Powinna zawierać informacje na temat konfiguracji i zarządzania aplikacją na poziomie klastra Kubernetes.
 
 \subsection{Zarządzanie błędami - 2 pkt}
 \label{sec:ERD} 
-
-Powinna zawierać informacje na temat sposobów zarządzania błędami aplikacji oraz sposobów monitorowania i reagowania na awarie.
+Zarządzanie błędami obejmuje monitorowanie logów aplikacji, ustawianie livenessProbe i readinessProbe dla podów klienta i serwera. Zużycie zasobów poszczególnych kontenerów jest monitorowane przez Metrics Server, który z kolei przekazuje te dane do HorizontalAutoScaler. Automatyczne zdolności samonaprawcze Kubernetes automatycznie restartują nieudane kontenery.
 
 
 \subsection{Skalowalność - 4 pkt}
 \label{sec:ExamplesSection}
-
-Skalowalność jest kluczowa w architekturze aplikacji opartej na Kubernetes. Należy opisać, jak aplikacja może być skalowana, w jaki sposób skalowanie jest monitorowane i jakie narzędzia są wykorzystywane w tym celu.
-
+Skalowalność jest zapewniona dzięki użyciu Metrics Server w połączeniu z HorizontalAutoScaler. Kontener Metrics zbiera informacje o wykorzystaniu procesora i pamięci RAM bezpośrednio z kubeletów, co jest kluczowym elementem w procesie skalowania. Ten kontener współpracuje z HorizontalPodAutoscalerem, który umożliwia efektywne zarządzanie zasobami i redukcję ryzyka wystąpienia problemów dzięki regularnemu monitorowaniu zużycia mocy obliczeniowej procesora. Gdy wykryje on zbyt wysokie obciążenie, automatycznie tworzy kolejne repliki aplikacji zgodnie z określonymi w konfiguracji zasadami (od 3 do 6).
 \subsection{Wymagania dotyczące zasobów - 2 pkt}
-\label{sec:ExampleTables}
+Odgórnie ustalone w plikach konfiguracyjnych wymagania dotyczące zasobów przydzielanych poszczególnym kontenerom:
+\label{sec:ExampleResults}
 
-Powinna zawierać informacje na temat wymagań dotyczących zasobów dla każdego komponentu aplikacji, takie jak ilość pamięci RAM, CPU, miejsce na dysku, itp. Należy również opisać, jakie są oczekiwania dotyczące wydajności i czasu odpowiedzi dla aplikacji.
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+       & Klient & Serwer & Baza Danych \\ \hline
+CPU    & 500m     & 1000m   & 2000m       \\ \hline
+RAM    & 1500Mi   & 1024Mi  & 2048Mi      \\ \hline
+\end{tabular}
+\caption{Limity zasobów}
+\label{tab:resource-limits}
+\end{table}
+
+Oczekiwania dotyczące wydajności obejmują niski czas odpowiedzi przy zapytaniach do bazy danych oraz wysoką dostępność. Faktyczne zużycie zasobów podczas ruchu na stronie uzyskane dzięki metrykom:
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+ & \textbf{Klient} & \textbf{Serwer} & \textbf{Baza Danych} \\ \hline
+\textbf{Zużycie RAM} & 800Mi & 700Mi & 500Mi \\ \hline
+\textbf{Zużycie CPU} & 5m & 400m & 200m \\ \hline
+\textbf{Miejsce na dysku} & 1.5Gi & 1.5Gi & 1Gi \\ \hline
+\textbf{Czas odpowiedzi} & $<$ 2s & $<$ 400ms & $<$ 3s \\ \hline
+\end{tabular}
+\caption{Zużycie zasobów i czas odpowiedzi}
+\label{table:zuzycie}
+\end{table}
 
 
 \subsection{Architektura sieciowa - 4 pkt}
-\label{sec:ExampleResults}
+Klastr Kubernetes został skonfigurowany z wykorzystaniem protokołu sieciowego CNI (Container Network Interface), który umożliwia każdemu kontenerowi w klastrze komunikację sieciową. W moim klastrze używam CNI pluginu, który zapewnia elastyczne zarządzanie adresami IP oraz konfigurację routingu między kontenerami.
 
-powinna zawierać informacje na temat architektury sieciowej aplikacji, w tym sposobu konfiguracji sieci w klastrze Kubernetes, wykorzystywanych protokołów i narzędzi do zarządzania siecią.
+\subsection*{Wykorzystywane Protokoły:}
+
+\begin{enumerate}
+    \item \textbf{HTTP}: Protokoły te są używane do komunikacji między klientem a serwerem e-commerce oraz do dostępu do aplikacji poprzez Ingress.
+    
+    \item \textbf{TCP}: Wykorzystywany głównie do komunikacji między kontenerami, na przykład pomiędzy frontendem (client) a backendem (server), oraz do komunikacji z bazą danych.
+    
+    \item \textbf{Bolt}: Protokół Bolt jest wykorzystywany do komunikacji między serwerem aplikacyjnym a bazą danych Neo4j, zapewniając szybki i efektywny dostęp do danych.
+\end{enumerate}
+
+\subsection*{Narzędzia do Zarządzania Siecią:}
+
+\begin{enumerate}
+    \item \textbf{Kubernetes Networking}: Zarządzanie siecią w klastrze Kubernetes obejmuje konfigurację Ingress, Service oraz Network Policies, które definiują reguły komunikacji między usługami oraz zarządzają dostępem do aplikacji.
+    
+    \item \textbf{NGINX Ingress Controller}: Kontroler Ingress NGINX zarządza ruchem sieciowym do aplikacji w klastrze, umożliwiając elastyczne routowanie ruchu HTTP do różnych usług w klastrze (klienta i serwera).
+\end{enumerate}
+
+\subsection{Podsumowanie}
+\label{sec:ExampleResults}
+Dzięki powyższej strukturze i wykorzystaniu potężnych możliwości orchestracji Kubernetes, aplikacja zapewnia wysoką dostępność, skalowalność oraz efektywne zarządzanie zasobami. Każdy komponent jest konteneryzowany i zarządzany niezależnie, co zapewnia elastyczność i odporność całego systemu.
 
 \noindent
-\textbf{Każdy odnośnik, który znajdzie się w literaturze musi mieć swoje odwołanie w projekcie. - 2 pkt} 
 
 \bibliographystyle{amsplain}
 \bibliography{references.bib}

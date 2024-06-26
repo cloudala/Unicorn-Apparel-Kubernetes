@@ -35,6 +35,13 @@ spec:
               protocol: TCP
             - containerPort: 7687
               protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "2048Mi"
+              cpu: "2000m"
           volumeMounts:
             - name: neo4j-data
               mountPath: /data
