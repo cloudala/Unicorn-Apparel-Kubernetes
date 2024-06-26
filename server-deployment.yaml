@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: C:\Users\Dell\Downloads\kompose\kompose.exe convert -f docker-compose.yaml
-    kompose.version: 1.34.0 (cbf2835db)
+    kompose.cmd: "C:\\Users\\Dell\\Downloads\\kompose\\kompose.exe convert -f docker-compose.yaml"
+    kompose.version: "1.34.0 (cbf2835db)"
   labels:
     io.kompose.service: server
   name: server
@@ -15,24 +15,33 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: C:\Users\Dell\Downloads\kompose\kompose.exe convert -f docker-compose.yaml
-        kompose.version: 1.34.0 (cbf2835db)
+        kompose.cmd: "C:\\Users\\Dell\\Downloads\\kompose\\kompose.exe convert -f docker-compose.yaml"
+        kompose.version: "1.34.0 (cbf2835db)"
       labels:
         io.kompose.service: server
     spec:
       containers:
-        - env:
-            - name: NEO4J_PASSWORD
-              value: admin1234
-            - name: NEO4J_URI
-              value: bolt://neo4j:7687
-            - name: NEO4J_USERNAME
-              value: neo4j
-            - name: PORT
-              value: "4000"
+        - name: server
           image: cloudala/server
-          name: server
           ports:
             - containerPort: 4000
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: server-secret
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+          readinessProbe:
+            tcpSocket:
+              port: 4000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 4000
+            initialDelaySeconds: 15
+            periodSeconds: 10
       restartPolicy: Always
